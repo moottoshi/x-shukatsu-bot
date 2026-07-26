@@ -1,49 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-  <!--
-    @tekisei_dojo のプロフィール画像。
-    tekisei-drill/assets/og-hero.svg と同じ配色(背景 #09090b / アクセント teal)で揃えている。
-
-    X のタイムライン上では 48px まで縮む。文字やこまかい線は潰れるので、
-    要素はマークシートの丸4つと鉛筆だけに絞り、線を太くしてある。
-    円形にトリミングされるため、主要な要素は中心 200,200 から半径 160 の内側に置く。
-  -->
+  <!-- @tekisei_dojo のアイコン。scripts/build-images.mjs が生成する。手で編集しない -->
   <defs>
-    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.42"/>
-      <stop offset="60%" stop-color="#0d9488" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="pencil" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#fbbf24"/>
-      <stop offset="100%" stop-color="#f59e0b"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="55%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#0f766e"/>
     </linearGradient>
+    <radialGradient id="center" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="halftone" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3" fill="#ffffff" opacity="0.10"/>
+    </pattern>
   </defs>
-
-  <rect width="400" height="400" fill="#09090b"/>
-  <circle cx="200" cy="200" r="200" fill="url(#glow)"/>
-
-  <!-- 全体を中心 200,200 まわりに縮めて、円形トリミングの内側に収める -->
-  <g transform="translate(200 200) scale(0.74) translate(-196 -204)">
-
-  <!-- マークシートの丸 2×2。右上だけが塗られている -->
-  <g transform="translate(184 186) rotate(-6)">
-    <circle cx="-62" cy="-62" r="44" fill="none" stroke="#52525b" stroke-width="11"/>
-    <circle cx="-62" cy="62" r="44" fill="none" stroke="#52525b" stroke-width="11"/>
-    <circle cx="62" cy="62" r="44" fill="none" stroke="#52525b" stroke-width="11"/>
-
-    <!-- いま塗った丸。外側のリングで「選択した」ことを示す -->
-    <circle cx="62" cy="-62" r="66" fill="none" stroke="#14b8a6" stroke-width="6" opacity="0.4"/>
-    <circle cx="62" cy="-62" r="44" fill="#2dd4bf"/>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <g>
+    <polygon points="200,180 600.0,180.0 592.7,255.8" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 560.4,353.6 520.9,418.7" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 449.4,492.7 385.6,534.3" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 289.0,570.0 213.5,579.8" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 111.0,570.0 38.7,546.0" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 -49.4,492.7 -104.2,439.8" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 -160.4,353.6 -186.8,282.1" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 -200.0,180.0 -192.7,104.2" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 -160.4,6.4 -120.9,-58.7" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 -49.4,-132.7 14.4,-174.3" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 111.0,-210.0 186.5,-219.8" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 289.0,-210.0 361.3,-186.0" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 449.4,-132.7 504.2,-79.8" fill="#ffffff" opacity="0.06"/>
+    <polygon points="200,180 560.4,6.4 586.8,77.9" fill="#ffffff" opacity="0.06"/>
   </g>
+  <rect width="400" height="400" fill="url(#halftone)"/>
+  <rect width="400" height="400" fill="url(#center)"/>
 
-  <!-- 鉛筆。芯が塗った丸を指すよう、右下から左上へ -->
-  <g transform="translate(292 288) rotate(38)">
-    <rect x="-19" y="-172" width="38" height="140" rx="5" fill="url(#pencil)"/>
-    <rect x="5" y="-172" width="14" height="140" fill="#d97706" opacity="0.55"/>
-    <polygon points="-19,-32 19,-32 0,12" fill="#fcd9a8"/>
-    <polygon points="-7,-2 7,-2 0,12" fill="#18181b"/>
-    <rect x="-19" y="-188" width="38" height="18" rx="4" fill="#a1a1aa"/>
-  </g>
+  <text x="200" y="232" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="152" font-weight="bold" text-anchor="middle" letter-spacing="2" fill="none" stroke="#0f172a" stroke-width="22" stroke-linejoin="round">適性</text>
+  <text x="200" y="232" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="152" font-weight="bold" text-anchor="middle" letter-spacing="2" fill="#fde047">適性</text>
 
-  </g>
+  <rect x="88" y="286" width="224" height="58" rx="10" fill="#09090b" opacity="0.88"/>
+  <text x="200" y="328" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="38" font-weight="bold" text-anchor="middle" fill="#ffffff" letter-spacing="2">SPI対策</text>
 </svg>

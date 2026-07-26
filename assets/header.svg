@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
-  <!-- @tekisei_dojo のヘッダー。scripts/build-header.mjs が生成する。手で編集しない -->
+  <!-- @tekisei_dojo のヘッダー。scripts/build-images.mjs が生成する。手で編集しない -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#1d4ed8"/>
@@ -14,7 +14,6 @@
       <circle cx="6" cy="6" r="3" fill="#ffffff" opacity="0.10"/>
     </pattern>
   </defs>
-
   <rect width="1500" height="500" fill="url(#bg)"/>
   <g>
     <polygon points="750,250 2050.0,250.0 2026.4,496.5" fill="#ffffff" opacity="0.06"/>
@@ -40,14 +39,16 @@
   <text x="750" y="235" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="132" font-weight="bold" text-anchor="middle" letter-spacing="4" fill="#fde047">適性検査ドリル</text>
 
   <!-- 何がもらえるかの一行。
-       「毎日1問」とは書かない。実際に投稿している27本のうち適性検査の問題解説は7本で、
-       残りは ES・面接・段取りの話。書いてあることと中身がずれると信用を落とす -->
+       「毎日1問」とは書かない。初回に投稿した27本のうち適性検査の解説は7本で、
+       残りは ES・面接・段取りの話だった。書いてあることと中身がずれると信用を落とす -->
   <text x="750" y="318" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="54" font-weight="bold" text-anchor="middle" letter-spacing="2" fill="none" stroke="#0f172a" stroke-width="10" stroke-linejoin="round">就活のコツを毎日1つ</text>
   <text x="750" y="318" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="54" font-weight="bold" text-anchor="middle" letter-spacing="2" fill="#ffffff">就活のコツを毎日1つ</text>
 
-  <!-- 誰向けかを明記する帯 -->
+  <!-- 誰向けかを明記する帯。
+       解き方は学年に関係ないので 29卒 まで広げる。30卒は 2026年7月時点で大学1年、
+       まだ適性検査を調べていないので入れない(1年後に足す) -->
   <rect x="0" y="382" width="1500" height="76" fill="#09090b" opacity="0.88"/>
-  <text x="750" y="434" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="44" font-weight="bold" text-anchor="middle" fill="#ffffff" letter-spacing="3">■ 28卒専用　SPI・非言語の対策ドリル ■</text>
+  <text x="750" y="434" font-family="Yu Gothic UI, Meiryo, sans-serif" font-size="44" font-weight="bold" text-anchor="middle" fill="#ffffff" letter-spacing="3">■ 28卒・29卒　SPI・非言語の対策ドリル ■</text>
 
   <!-- 不安を消すバッジ。tekisei-drill は実際に無料・登録不要なので誇張ではない -->
   <g transform="translate(62 52) rotate(-4)">
