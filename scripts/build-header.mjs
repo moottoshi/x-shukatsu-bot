@@ -4,15 +4,25 @@
  *
  *   node scripts/build-header.mjs
  *
- * PNG へのラスタライズは sharp が要るので別工程。tekisei-drill 側に入っているものを使う:
- *   cd ../tekisei-drill && node -e "import('sharp').then(async ({default:s})=>{ ... })"
- * (README の「画像を作り直す」を参照)
+ * PNG へのラスタライズは sharp が要るので別工程(README の「画像を作り直す」を参照)。
+ *
+ * ■ 設計の根拠
+ * 就活系で伸びているアカウント(@SHUUKATSU_28 など)のヘッダーに共通するのは、
+ * 図形ではなく「文字で何がもらえるか言い切る」こと。具体的には
+ *   - 明るい彩度の高い背景 + 集中線(暗い背景は目に留まらない)
+ *   - 巨大な見出し1つ
+ *   - 誰向けかを明記した帯
+ *   - 「無料」「登録不要」など不安を消すバッジ
+ * ここではその型に沿い、色だけ tekisei-drill のティール系に寄せている。
  *
  * ■ 配置の制約
- * ヘッダーはプロフィール画面で上下が切られ、左下にアイコンが重なる。
- * そのため主題は右寄りに置き、左下 (x<420, y>300) には何も置かない。
- * 文字は入れない。SVG のテキストはレンダラ側のフォントに依存して崩れるため、
- * 説明はプロフィールの自己紹介に任せる。
+ * プロフィール画面では上下が切られ、左下にアイコンが重なる。
+ * そのため文字はすべて中央に寄せ、左下 (x<420, y>360) には情報を置かない。
+ *
+ * ■ フォント
+ * 文字は Windows の Yu Gothic UI で描画される。別の環境で作り直すと字形が変わる。
+ * librsvg は paint-order を解釈しないので、縁取りは「太い stroke の文字」→
+ * 「塗りの文字」の順に2回描いて出している。
  */
 
 import fs from "node:fs";
@@ -21,91 +31,82 @@ import { fileURLToPath } from "node:url";
 
 const W = 1500;
 const H = 500;
+const CX = W / 2;
+const FONT = "Yu Gothic UI, Meiryo, sans-serif";
 
-// マークシートの丸を敷き詰める範囲
-const ROWS = [170, 250, 330];
-const COL_START = 300;
-const COL_STEP = 78;
-const COL_COUNT = 15;
-const R = 24;
+/** 縁取りつきの文字。librsvg 対策で stroke 版と fill 版を重ねる */
+function outlined({ text, x, y, size, fill, stroke, strokeWidth, letterSpacing = 0 }) {
+  const common =
+    `x="${x}" y="${y}" font-family="${FONT}" font-size="${size}" font-weight="bold" ` +
+    `text-anchor="middle" letter-spacing="${letterSpacing}"`;
+  return [
+    `  <text ${common} fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linejoin="round">${text}</text>`,
+    `  <text ${common} fill="${fill}">${text}</text>`,
+  ].join("\n");
+}
 
-// 塗る丸の位置 [行, 列]。1行に1つだけ塗られている解答用紙に見えるよう散らす
-const MARKED = new Set(["0,2", "1,5", "2,3", "0,7", "1,9", "2,12"]);
-
-// 鉛筆が指す丸。ここだけリングを足して「いま塗っている」感を出す。
-// 鉛筆は右下から左上に伸びるので、右端に寄せると画面外にはみ出す
-const FOCUS_ROW = 0;
-const FOCUS_COL = 11;
-
-const bubbles = [];
-ROWS.forEach((cy, row) => {
-  for (let col = 0; col < COL_COUNT; col++) {
-    // 焦点の丸はマスクの外に別途描くので、ここでは飛ばす
-    if (row === FOCUS_ROW && col === FOCUS_COL) continue;
-
-    const cx = COL_START + col * COL_STEP;
-    const marked = MARKED.has(`${row},${col}`);
-    bubbles.push(
-      marked
-        ? `    <circle cx="${cx}" cy="${cy}" r="${R}" fill="#2dd4bf"/>`
-        : `    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#52525b" stroke-width="6"/>`,
-    );
+/** 中心から放射する集中線 */
+function rays() {
+  const out = [];
+  const count = 28;
+  for (let i = 0; i < count; i++) {
+    if (i % 2) continue;
+    const a1 = (i / count) * Math.PI * 2;
+    const a2 = ((i + 0.85) / count) * Math.PI * 2;
+    const r = 1300;
+    const p = (a) => `${(CX + Math.cos(a) * r).toFixed(1)},${(250 + Math.sin(a) * r).toFixed(1)}`;
+    out.push(`    <polygon points="${CX},250 ${p(a1)} ${p(a2)}" fill="#ffffff" opacity="0.06"/>`);
   }
-});
+  return out.join("\n");
+}
 
-const FOCUS = { cx: COL_START + FOCUS_COL * COL_STEP, cy: ROWS[FOCUS_ROW] };
+/** 角のバッジ。少し傾けて手作り感を出す */
+function badge({ text, x, y, w, rotate }) {
+  return `  <g transform="translate(${x} ${y}) rotate(${rotate})">
+    <rect x="0" y="0" width="${w}" height="78" rx="12" fill="#dc2626" stroke="#7f1d1d" stroke-width="4"/>
+    <text x="${w / 2}" y="55" font-family="${FONT}" font-size="44" font-weight="bold" text-anchor="middle" fill="#ffffff">${text}</text>
+  </g>`;
+}
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <!--
-    @tekisei_dojo のヘッダー。scripts/build-header.mjs が生成する。手で編集しない。
-    配色は tekisei-drill/assets/og-hero.svg に合わせている。
-  -->
+  <!-- @tekisei_dojo のヘッダー。scripts/build-header.mjs が生成する。手で編集しない -->
   <defs>
-    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.30"/>
-      <stop offset="60%" stop-color="#0d9488" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="55%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <radialGradient id="center" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="pencil" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#fbbf24"/>
-      <stop offset="100%" stop-color="#f59e0b"/>
-    </linearGradient>
-
-    <!-- 左側はアイコンが重なるので、丸を左へいくほど薄くする -->
-    <linearGradient id="fadeLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#000000"/>
-      <stop offset="28%" stop-color="#3f3f3f"/>
-      <stop offset="55%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#ffffff"/>
-    </linearGradient>
-    <mask id="fade">
-      <rect width="${W}" height="${H}" fill="url(#fadeLeft)"/>
-    </mask>
+    <pattern id="halftone" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3" fill="#ffffff" opacity="0.10"/>
+    </pattern>
   </defs>
 
-  <rect width="${W}" height="${H}" fill="#09090b"/>
-  <ellipse cx="1010" cy="250" rx="620" ry="330" fill="url(#glow)"/>
-
-  <g mask="url(#fade)">
-${bubbles.join("\n")}
+  <rect width="${W}" height="${H}" fill="url(#bg)"/>
+  <g>
+${rays()}
   </g>
+  <rect width="${W}" height="${H}" fill="url(#halftone)"/>
+  <rect width="${W}" height="${H}" fill="url(#center)"/>
 
-  <!-- 鉛筆が指している丸。マスクの外に置いてはっきり見せる -->
-  <circle cx="${FOCUS.cx}" cy="${FOCUS.cy}" r="${R + 20}" fill="none" stroke="#14b8a6" stroke-width="4" opacity="0.45"/>
-  <circle cx="${FOCUS.cx}" cy="${FOCUS.cy}" r="${R}" fill="#2dd4bf"/>
+  <!-- 見出し。ヘッダーで一番読ませたい語を1つだけ大きく -->
+${outlined({ text: "適性検査ドリル", x: CX, y: 235, size: 132, fill: "#fde047", stroke: "#0f172a", strokeWidth: 20, letterSpacing: 4 })}
 
-  <!-- 鉛筆。芯が上の丸に向くよう右下から左上へ -->
-  <g transform="translate(${FOCUS.cx + 118} ${FOCUS.cy + 150}) rotate(38)">
-    <rect x="-21" y="-196" width="42" height="156" rx="5" fill="url(#pencil)"/>
-    <rect x="5" y="-196" width="16" height="156" fill="#d97706" opacity="0.55"/>
-    <polygon points="-21,-40 21,-40 0,14" fill="#fcd9a8"/>
-    <polygon points="-8,-6 8,-6 0,14" fill="#18181b"/>
-    <rect x="-21" y="-214" width="42" height="20" rx="4" fill="#a1a1aa"/>
-  </g>
+  <!-- 何がもらえるかの一行。
+       「毎日1問」とは書かない。実際に投稿している27本のうち適性検査の問題解説は7本で、
+       残りは ES・面接・段取りの話。書いてあることと中身がずれると信用を落とす -->
+${outlined({ text: "就活のコツを毎日1つ", x: CX, y: 318, size: 54, fill: "#ffffff", stroke: "#0f172a", strokeWidth: 10, letterSpacing: 2 })}
 
-  <!-- 進捗バー。解答が進んでいる感じを一本の線で出す。左下はアイコンが重なるので x=440 から -->
-  <rect x="440" y="408" width="920" height="12" rx="6" fill="#27272a"/>
-  <rect x="440" y="408" width="600" height="12" rx="6" fill="#14b8a6" opacity="0.85"/>
+  <!-- 誰向けかを明記する帯 -->
+  <rect x="0" y="382" width="${W}" height="76" fill="#09090b" opacity="0.88"/>
+  <text x="${CX}" y="434" font-family="${FONT}" font-size="44" font-weight="bold" text-anchor="middle" fill="#ffffff" letter-spacing="3">■ 28卒専用　SPI・非言語の対策ドリル ■</text>
+
+  <!-- 不安を消すバッジ。tekisei-drill は実際に無料・登録不要なので誇張ではない -->
+${badge({ text: "完全無料", x: 62, y: 52, w: 216, rotate: -4 })}
+${badge({ text: "登録不要", x: 1222, y: 52, w: 216, rotate: 4 })}
 </svg>
 `;
 
