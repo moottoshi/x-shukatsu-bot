@@ -1,0 +1,53 @@
+name: daily post
+
+on:
+  schedule:
+    # 22:30 UTC = 翌 07:30 JST。GitHub 側の混雑で数十分ずれることがあるが実害はない
+    - cron: "30 22 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "投稿せず、次に出る1本を表示するだけ"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 署名と文字数カウントのテスト
+        run: node --test scripts/post.test.mjs
+
+      - name: 全投稿の文字数を検査
+        run: node scripts/post.mjs --check
+
+      - name: 投稿
+        run: node scripts/post.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+
+      - name: state.json を書き戻す
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git diff --staged --quiet && echo "変更なし" && exit 0
+          git commit -m "chore: 投稿状態を更新"
+          git push
