@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+  <!--
+    @tekisei_dojo のヘッダー。scripts/build-header.mjs が生成する。手で編集しない。
+    配色は tekisei-drill/assets/og-hero.svg に合わせている。
+  -->
+  <defs>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.30"/>
+      <stop offset="60%" stop-color="#0d9488" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pencil" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <!-- 左側はアイコンが重なるので、丸を左へいくほど薄くする -->
+    <linearGradient id="fadeLeft" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="28%" stop-color="#3f3f3f"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <mask id="fade">
+      <rect width="1500" height="500" fill="url(#fadeLeft)"/>
+    </mask>
+  </defs>
+
+  <rect width="1500" height="500" fill="#09090b"/>
+  <ellipse cx="1010" cy="250" rx="620" ry="330" fill="url(#glow)"/>
+
+  <g mask="url(#fade)">
+    <circle cx="300" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="378" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="456" cy="170" r="24" fill="#2dd4bf"/>
+    <circle cx="534" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="612" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="690" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="768" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="846" cy="170" r="24" fill="#2dd4bf"/>
+    <circle cx="924" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1002" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1080" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1236" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1314" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1392" cy="170" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="300" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="378" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="456" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="534" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="612" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="690" cy="250" r="24" fill="#2dd4bf"/>
+    <circle cx="768" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="846" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="924" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1002" cy="250" r="24" fill="#2dd4bf"/>
+    <circle cx="1080" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1158" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1236" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1314" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1392" cy="250" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="300" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="378" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="456" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="534" cy="330" r="24" fill="#2dd4bf"/>
+    <circle cx="612" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="690" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="768" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="846" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="924" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1002" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1080" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1158" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1236" cy="330" r="24" fill="#2dd4bf"/>
+    <circle cx="1314" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+    <circle cx="1392" cy="330" r="24" fill="none" stroke="#52525b" stroke-width="6"/>
+  </g>
+
+  <!-- 鉛筆が指している丸。マスクの外に置いてはっきり見せる -->
+  <circle cx="1158" cy="170" r="44" fill="none" stroke="#14b8a6" stroke-width="4" opacity="0.45"/>
+  <circle cx="1158" cy="170" r="24" fill="#2dd4bf"/>
+
+  <!-- 鉛筆。芯が上の丸に向くよう右下から左上へ -->
+  <g transform="translate(1276 320) rotate(38)">
+    <rect x="-21" y="-196" width="42" height="156" rx="5" fill="url(#pencil)"/>
+    <rect x="5" y="-196" width="16" height="156" fill="#d97706" opacity="0.55"/>
+    <polygon points="-21,-40 21,-40 0,14" fill="#fcd9a8"/>
+    <polygon points="-8,-6 8,-6 0,14" fill="#18181b"/>
+    <rect x="-21" y="-214" width="42" height="20" rx="4" fill="#a1a1aa"/>
+  </g>
+
+  <!-- 進捗バー。解答が進んでいる感じを一本の線で出す。左下はアイコンが重なるので x=440 から -->
+  <rect x="440" y="408" width="920" height="12" rx="6" fill="#27272a"/>
+  <rect x="440" y="408" width="600" height="12" rx="6" fill="#14b8a6" opacity="0.85"/>
+</svg>

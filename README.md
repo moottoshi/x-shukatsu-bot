@@ -117,6 +117,29 @@ OAuth 1.0a の署名は、間違っていても X からは 401 が返るだけ�
 そのため X 公式ドキュメントの既知のテストベクタで署名を検証している。
 `node --test` が通れば、あとは Secrets の値が正しいかだけの問題になる。
 
+## 画像を作り直す
+
+`assets/avatar.svg`(手書き)と `assets/header.svg`(`scripts/build-header.mjs` が生成)から
+PNG を起こす。ラスタライズには sharp が要るが、このリポジトリには入れていないので
+tekisei-drill 側のものを借りる。
+
+```bash
+node scripts/build-header.mjs          # header.svg を書き直す(手で編集しない)
+
+cd ../tekisei-drill                    # sharp はこちらの node_modules にある
+node -e "
+import('sharp').then(async ({default: sharp}) => {
+  const base = '../x-shukatsu-bot/assets';
+  for (const [name, w, h] of [['avatar', 400, 400], ['header', 1500, 500]]) {
+    await sharp(\`\${base}/\${name}.svg\`, { density: 300 }).resize(w, h).png().toFile(\`\${base}/\${name}.png\`);
+  }
+});
+"
+```
+
+配置の制約は各ファイルの先頭コメントに書いてある。アイコンは円形に切られること、
+ヘッダーは左下にアイコンが重なることを前提にしている。
+
 ## 運用で気をつけること
 
 - **自動フォロー・自動いいね・自動DMは実装しない。** X の自動化ルール違反で凍結対象。
