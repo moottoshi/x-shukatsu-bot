@@ -2,7 +2,7 @@
 
 28卒向けの就活アカウント [@tekisei_dojo](https://x.com/tekisei_dojo) を、1日1投稿ずつ運用する仕組み。
 
-投稿先は [適性検査ドリル](https://tekisei-drill.vercel.app) への導線を兼ねている。
+投稿先は [適性検査ドリル](https://tekisei-drill.pages.dev) への導線を兼ねている。
 
 ## ⚠️ X API は 2026年2月に無料枠が廃止された
 

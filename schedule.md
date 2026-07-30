@@ -89,7 +89,7 @@ A=1日2、B=1日3。
 分数が消えるので計算ミスが減ります。
 
 無料ドリル↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -118,7 +118,7 @@ ESを出す前に必ずやってほしいこと。
 混ぜる前の食塩の合計=混ぜた後の食塩、で一本。
 
 練習↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -158,7 +158,7 @@ https://tekisei-drill.vercel.app
 重なりを1回引く。これだけ覚えておけば大半は解けます。
 
 練習↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -210,7 +210,7 @@ ESで「私は◯◯力があります」と書き出すのはもったいない
 短いセットを1回解いて、正答率が低かった分野だけを繰り返す方が早いです。
 
 分野別に出るドリル↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -263,7 +263,7 @@ ESの文字数が埋まらないときは、削るところを探すより「な
 練習でも「1問にかける時間」を計っておくと本番で慌てません。
 
 時間も出るドリル↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -317,7 +317,7 @@ https://tekisei-drill.vercel.app
 計算そのものは中学レベル。日本語→式の変換に慣れれば伸びます。
 
 解説つきで練習↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
@@ -365,7 +365,7 @@ https://tekisei-drill.vercel.app
 なので目標点を気にするより、間違えた分野を潰す方が確実です。
 
 分野別に正答率が出るドリル↓
-https://tekisei-drill.vercel.app
+https://tekisei-drill.pages.dev
 
 #28卒 #SPI #適性検査
 ```
